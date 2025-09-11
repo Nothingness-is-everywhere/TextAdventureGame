@@ -1,5 +1,7 @@
 package io.github.Nothingness_is_everywhere.entity;
 
+import java.util.List;
+
 /**
  * 治疗药水（具体物品分子）
  * 在原子基础上，实现物品特性，定义“治疗”功能
@@ -14,8 +16,12 @@ public class HealingPotion extends BaseEntity implements ItemTrait {
 
     // 物品核心功能：给目标恢复生命（分子与生命的交互）
     @Override
-    public void use(LifeTrait target) {
+    public void use(AbstractLife target) {
         if (target.isAlive()) {
+            if (target.getEffects()!= null) {
+                List<AbstractNonLiving> effects = new List<AbstractNonLiving>;
+                effects.add(new PoisonEffect());
+            }
             target.heal(healAmount);
             System.out.printf("使用了%s，%s恢复了%d点生命！%n",
                     getName(), target.getClass().getSimpleName(), healAmount);

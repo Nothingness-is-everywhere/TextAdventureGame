@@ -6,7 +6,7 @@ package io.github.Nothingness_is_everywhere.entity;
  */
 public interface ItemTrait {
     // 物品使用效果（物品的核心功能）
-    void use(LifeTrait target);
+    void use(AbstractLife target);
 
     // 物品是否可堆叠
     boolean isStackable();

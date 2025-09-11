@@ -1,6 +1,6 @@
 package io.github.Nothingness_is_everywhere.entity;
 
-// 火焰buff（持续伤害效果）
+// 火焰
 public class FireBuff extends AbstractNonLiving {
     private int damagePerTick;  // 每 tick 的伤害
 

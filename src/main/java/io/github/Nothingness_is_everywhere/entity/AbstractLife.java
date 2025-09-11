@@ -1,6 +1,7 @@
 package io.github.Nothingness_is_everywhere.entity;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 生命实体的基础实现（类似“基础基因链表达”）
@@ -42,6 +43,16 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
         return health > 0; // 基因定义的“存活”标准
     }
 
+    @Override
+    public void useConsumables(Map<ItemTrait, Integer> consumableItems) {
+        for (Map.Entry<ItemTrait, Integer> entry : consumableItems.entrySet()) {
+            ItemTrait item = entry.getKey();
+            int quantity = entry.getValue();
+            for (int i = 0; i < quantity; i++) {
+                item.use(this); // 使用物品（分子与基因的交互）
+            }
+        }
+    }
     // 感知环境的基础实现（可被子类重写，体现不同生命的感知差异）
 //    @Override
 //    public String perceive(Scene scene) {

@@ -169,8 +169,6 @@ public class BinarySecureSaveUtil {
         Object loadedObj = BinarySecureSaveUtil.load("savegame");
         if (loadedObj != null) {
             System.out.println("加载对象：" + loadedObj);
-            // 可以安全地调用toString()
-            System.out.println("对象详情：" + loadedObj.toString());
         } else {
             System.out.println("加载对象失败，对象为null");
         }
