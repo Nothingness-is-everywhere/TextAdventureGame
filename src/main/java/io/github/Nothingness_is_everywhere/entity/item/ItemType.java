@@ -1,4 +1,4 @@
-package io.github.Nothingness_is_everywhere.entity;
+package io.github.Nothingness_is_everywhere.entity.item;
 
 // 物品类型：用于分类物品功能
 public enum ItemType {

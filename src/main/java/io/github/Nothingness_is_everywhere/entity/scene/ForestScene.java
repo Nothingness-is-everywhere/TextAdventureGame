@@ -1,4 +1,4 @@
-package io.github.Nothingness_is_everywhere.entity;
+package io.github.Nothingness_is_everywhere.entity.scene;
 
 /**
  * 森林场景（具体场景示例）

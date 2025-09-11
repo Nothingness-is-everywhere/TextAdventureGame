@@ -1,4 +1,6 @@
-package io.github.Nothingness_is_everywhere.entity;
+package io.github.Nothingness_is_everywhere.entity.scene;
+
+import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 
 import java.io.Serializable;
 import java.util.List;

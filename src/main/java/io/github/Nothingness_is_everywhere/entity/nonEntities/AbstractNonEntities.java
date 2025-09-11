@@ -1,12 +1,14 @@
-package io.github.Nothingness_is_everywhere.entity;
+package io.github.Nothingness_is_everywhere.entity.nonEntities;
+
+import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
 
 import java.util.UUID;
 
 /**
- * 非生命实体的基础类（如buff、技能、天赋等）
+ * 非实体的基础类（如buff、技能、天赋等）
  * 核心特征：具有效果、持续规则、激活状态，但无物理形态和生命特征
  */
-public abstract class AbstractNonLiving {
+public abstract class AbstractNonEntities {
     private final String id;              // 唯一标识（类似“效果ID”）
     private String name;                  // 名称（如“火焰buff”“火球术”）
     private String description;           // 效果描述（如“每秒造成5点伤害”）
@@ -20,7 +22,7 @@ public abstract class AbstractNonLiving {
      * @param description 效果描述
      * @param duration 持续时间（-1=永久，0=即时）
      */
-    public AbstractNonLiving(String name, String description, int duration) {
+    public AbstractNonEntities(String name, String description, int duration) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
@@ -73,6 +75,26 @@ public abstract class AbstractNonLiving {
         return false;
     }
 
+    /**
+     * 减少叠加层数（掉层）
+     * @param minStack 最小层数（通常为1，小于等于此值时会直接失效）
+     * @return 是否掉层成功（若已达最小层数则返回false）
+     */
+    public boolean decreaseStack(int minStack) {
+        // 若当前层数大于最小层数，则减少一层
+        if (stackCount > minStack) {
+            stackCount--;
+            return true;
+        }
+        // 若已达最小层数，掉层后直接失效
+        else if (stackCount == minStack) {
+            stackCount--;
+            deactivate(null);  // 层数归零，效果失效（目标可根据实际需求传入）
+            return false;
+        }
+        return false;
+    }
+
     // Getter/Setter
     public String getId() { return id; }
     public String getName() { return name; }
@@ -80,7 +102,7 @@ public abstract class AbstractNonLiving {
     public String getDescription() { return description; }
     public int getDuration() { return duration; }
     public void setDuration(int duration) { this.duration = duration; }
-    public boolean isActive() { return isActive; }
+    public boolean getActive() { return isActive; }
     protected void setActive(boolean active) { isActive = active; }
     public int getStackCount() { return stackCount; }
 

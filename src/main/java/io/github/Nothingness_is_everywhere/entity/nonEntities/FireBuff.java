@@ -1,7 +1,9 @@
-package io.github.Nothingness_is_everywhere.entity;
+package io.github.Nothingness_is_everywhere.entity.nonEntities;
+
+import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
 
 // 火焰
-public class FireBuff extends AbstractNonLiving {
+public class FireBuff extends AbstractNonEntities {
     private int damagePerTick;  // 每 tick 的伤害
 
     public FireBuff(int duration, int damagePerTick) {
