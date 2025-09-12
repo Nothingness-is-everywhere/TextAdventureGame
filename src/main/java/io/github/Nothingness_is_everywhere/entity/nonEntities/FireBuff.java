@@ -1,5 +1,6 @@
 package io.github.Nothingness_is_everywhere.entity.nonEntities;
 
+import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
 
 // 火焰
@@ -12,25 +13,29 @@ public class FireBuff extends AbstractNonEntities {
     }
 
     @Override
-    public void activate(LifeTrait target) {
+    public void activate(BaseEntity target) {
         setActive(true);
         System.out.printf("%s被%s覆盖！%n", target.getClass().getSimpleName(), getName());
     }
 
     @Override
-    public void deactivate(LifeTrait target) {
+    public void deactivate(BaseEntity target) {
         setActive(false);
         System.out.printf("%s的%s效果消失了%n", target.getClass().getSimpleName(), getName());
     }
 
     // 重写tick方法：每步造成伤害
     @Override
-    public boolean tick(LifeTrait target) {
-        if (super.tick(target)) {  // 先执行父类的持续时间逻辑
+    public boolean tick(BaseEntity target) {
+        if (! (target instanceof LifeTrait)) {
+            System.out.println("目标无法受到火焰伤害");
+            return false;
+        }else if (super.tick(target)) {  // 先执行父类的持续时间逻辑
+            LifeTrait lifeTarget = (LifeTrait) target;
             int totalDamage = damagePerTick * getStackCount();  // 伤害受叠加层数影响
-            target.damage(totalDamage);
+            lifeTarget.damage(totalDamage);
             System.out.printf("%s受到%s%d点伤害（叠加%d层）%n",
-                    target.getClass().getSimpleName(), getName(), totalDamage, getStackCount());
+                    lifeTarget.getClass().getSimpleName(), getName(), totalDamage, getStackCount());
             return true;
         }
         return false;

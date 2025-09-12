@@ -1,8 +1,5 @@
 package io.github.Nothingness_is_everywhere.entity.base;
 
-import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**

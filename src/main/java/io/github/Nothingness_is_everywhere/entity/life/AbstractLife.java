@@ -2,6 +2,9 @@ package io.github.Nothingness_is_everywhere.entity.life;
 
 import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.item.ItemTrait;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +21,7 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     protected int magicDefense;       // 魔抗
     protected double critRate;        // 暴击率（默认5%）
     protected double antiCritRate;    // 防爆率（默认5%）
+    private List<AbstractNonEntities> activeEffects; // 当前激活的效果列表
 
     public AbstractLife(String name, String description, int x, int y, int z,
                         int constitution, int strength, int intelligence) {
@@ -31,6 +35,7 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
         this.magicDefense = 0;
         this.critRate = 5.0;             // 5%基础暴击
         this.antiCritRate = 5.0;         // 5%基础防爆
+        this.activeEffects = new java.util.ArrayList<>();
     }
 
     // 生命值操作实现
@@ -63,6 +68,35 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
         return health > 0 && getState() != EntityState.DESTROYED;
     }
 
+    @Override
+    public void addEffect(AbstractNonEntities effect) {
+        activeEffects.add(effect);
+        effect.activate(this);
+        System.out.printf("%s获得了效果：%s%n", getName(), effect.getName());
+    }
+
+    @Override
+    public void removeEffect(AbstractNonEntities effect) {
+        if (activeEffects.remove(effect)) {
+            effect.deactivate(this);
+            System.out.printf("%s失去了效果：%s%n", getName(), effect.getName());
+        }
+    }
+
+    public void clearEffects() {
+        for (AbstractNonEntities effect : new java.util.ArrayList<>(activeEffects)) {
+            removeEffect(effect);
+        }
+    }
+
+    public void activateAllEffects() {
+        for (AbstractNonEntities effect : new java.util.ArrayList<>(activeEffects)) {
+            if (!effect.tick(this)) {
+                removeEffect(effect);
+            }
+        }
+    }
+
     // 战斗属性Getters
     @Override
     public int getConstitution() { return constitution; }
@@ -80,6 +114,8 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     public double getCritRate() { return critRate; }
     @Override
     public double getAntiCritRate() { return antiCritRate; }
+    @Override
+    public List<AbstractNonEntities> getActiveEffects() { return activeEffects; }
 
     // 物品使用实现
     @Override

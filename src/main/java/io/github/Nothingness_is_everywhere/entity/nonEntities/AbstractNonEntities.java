@@ -1,5 +1,6 @@
 package io.github.Nothingness_is_everywhere.entity.nonEntities;
 
+import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
 
 import java.util.UUID;
@@ -35,20 +36,20 @@ public abstract class AbstractNonEntities {
      * 激活效果（核心方法：使效果开始作用）
      * @param target 作用目标（通常是生命实体，如Player/NPC）
      */
-    public abstract void activate(LifeTrait target);
+    public abstract void activate(BaseEntity target);
 
     /**
      * 失效效果（核心方法：使效果停止作用）
      * @param target 作用目标
      */
-    public abstract void deactivate(LifeTrait target);
+    public abstract void deactivate(BaseEntity target);
 
     /**
      * 每步更新（用于处理持续效果，如buff每回合减益）
      * @param target 作用目标
      * @return 是否仍有效（false表示已结束）
      */
-    public boolean tick(LifeTrait target) {
+    public boolean tick(BaseEntity target) {
         if (!isActive) return false;
 
         // 处理持续时间（永久效果不减少持续时间）

@@ -1,6 +1,9 @@
 package io.github.Nothingness_is_everywhere.entity.life;
 
 import io.github.Nothingness_is_everywhere.entity.item.ItemTrait;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,8 +27,11 @@ public interface LifeTrait {
     int getMagicDefense();    // 魔抗
     double getCritRate();     // 暴击率（百分比）
     double getAntiCritRate(); // 防爆率（百分比）
+    List<AbstractNonEntities> getActiveEffects(); // 获取当前所有激活的效果
 
     // 物品使用
     void useItem(ItemTrait item);
     void useConsumables(Map<ItemTrait, Integer> consumables);
+    void addEffect(AbstractNonEntities effect);
+    void removeEffect(AbstractNonEntities effect);
 }

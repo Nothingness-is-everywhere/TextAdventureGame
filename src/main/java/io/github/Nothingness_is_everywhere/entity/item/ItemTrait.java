@@ -1,5 +1,6 @@
 package io.github.Nothingness_is_everywhere.entity.item;
 
+import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.life.AbstractLife;
 
 /**
