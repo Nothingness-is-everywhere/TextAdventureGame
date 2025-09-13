@@ -1,10 +1,10 @@
 package io.github.Nothingness_is_everywhere;
 
 import io.github.Nothingness_is_everywhere.entity.life.Player;
-import io.github.Nothingness_is_everywhere.entity.nonEntities.FireBuff;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.persistent.FireBuff;
 import io.github.Nothingness_is_everywhere.entity.item.ItemTrait;
 import io.github.Nothingness_is_everywhere.entity.item.consumable.HealingPotion;
-import io.github.Nothingness_is_everywhere.entity.nonEntities.HealBuff;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.persistent.HealBuff;
 
 import java.util.Arrays;
 import java.util.HashMap;

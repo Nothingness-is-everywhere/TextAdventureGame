@@ -11,6 +11,7 @@ target/
 *.iws
 *.iml
 *.ipr
+src/main/resources/data/*
 
 ### Eclipse ###
 .apt_generated
@@ -35,4 +36,4 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Storesrc/main/resources/data/*

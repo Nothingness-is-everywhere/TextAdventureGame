@@ -1,11 +1,12 @@
-package io.github.Nothingness_is_everywhere.entity.nonEntities;
+package io.github.Nothingness_is_everywhere.entity.nonEntities.persistent;
 
 import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.life.AbstractLife;
 import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
 
 // 恢复Buff
-public class HealBuff extends AbstractNonEntities {
+public class HealBuff extends AbstractPersistentEffect {
     private int healPerTick;  // 每 tick 的恢复量
 
     public HealBuff(int duration, int healPerTick) {

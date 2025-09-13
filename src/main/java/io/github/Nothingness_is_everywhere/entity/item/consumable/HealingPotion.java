@@ -1,7 +1,7 @@
 package io.github.Nothingness_is_everywhere.entity.item.consumable;
 
 import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
-import io.github.Nothingness_is_everywhere.entity.nonEntities.HealBuff;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.persistent.HealBuff;
 import io.github.Nothingness_is_everywhere.entity.item.ItemTrait;
 import io.github.Nothingness_is_everywhere.entity.item.ItemType;
 import io.github.Nothingness_is_everywhere.entity.life.AbstractLife;

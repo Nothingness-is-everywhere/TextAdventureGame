@@ -20,20 +20,19 @@ public class BinarySecureSaveUtil {
 
     /**
      * 保存对象到二进制加密DAT文件
-     * @param obj 可序列化对象
+     *
+     * @param obj      可序列化对象
      * @param filePath 存档路径（不含扩展名）
-     * @return 保存成功与否
      */
-    public static boolean save(Object obj, String filePath) {
+    public static void save(Object obj, String filePath) {
         if (!(obj instanceof Serializable)) {
             System.err.println("对象未实现Serializable接口，无法保存");
-            return false;
+            return;
         }
 
         try {
             // 1. 序列化对象为二进制字节数组
             byte[] objBytes = serialize(obj);
-            if (objBytes == null) return false;
 
             // 2. 计算原始数据的SHA-256哈希（二进制字节形式）
             byte[] hashBytes = calculateHashBytes(objBytes);
@@ -51,11 +50,9 @@ public class BinarySecureSaveUtil {
             }
 
             System.out.println("二进制加密存档成功：" + fullPath + "（大小：" + Files.size(Paths.get(fullPath)) + "字节）");
-            return true;
 
         } catch (Exception e) {
             System.err.println("保存失败：" + e.getMessage());
-            return false;
         }
     }
 
@@ -145,6 +142,7 @@ public class BinarySecureSaveUtil {
     }
 
     static class TestObject implements Serializable {
+        @Serial
         private static final long serialVersionUID = 1L;
         String name = "TestObject";
         int value = 42;
@@ -163,10 +161,10 @@ public class BinarySecureSaveUtil {
         TestObject obj = new TestObject();
 
         // 保存对象
-        BinarySecureSaveUtil.save(obj, "savegame");
+        BinarySecureSaveUtil.save(obj, "./src/main/resources/data/savegame");
 
         // 加载对象并添加null检查
-        Object loadedObj = BinarySecureSaveUtil.load("savegame");
+        Object loadedObj = BinarySecureSaveUtil.load("./src/main/resources/data/savegame");
         if (loadedObj != null) {
             System.out.println("加载对象：" + loadedObj);
         } else {

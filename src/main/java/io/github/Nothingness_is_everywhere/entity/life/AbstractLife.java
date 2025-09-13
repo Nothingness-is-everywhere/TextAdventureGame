@@ -2,7 +2,7 @@ package io.github.Nothingness_is_everywhere.entity.life;
 
 import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.item.ItemTrait;
-import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.persistent.AbstractPersistentEffect;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     protected int magicDefense;       // 魔抗
     protected double critRate;        // 暴击率（默认5%）
     protected double antiCritRate;    // 防爆率（默认5%）
-    private List<AbstractNonEntities> activeEffects; // 当前激活的效果列表
+    private List<AbstractPersistentEffect> activeEffects; // 当前激活的效果列表
     private boolean isInformation = true; // 控制是否输出战斗信息
 
     public AbstractLife(String name, String description, int x, int y, int z,
@@ -79,26 +79,26 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     }
 
     @Override
-    public void addEffect(AbstractNonEntities effect) {
+    public void addEffect(AbstractPersistentEffect effect) {
         activeEffects.add(effect);
         System.out.printf("%s获得了效果：%s%n", getName(), effect.getName());
     }
 
     @Override
-    public void removeEffect(AbstractNonEntities effect) {
+    public void removeEffect(AbstractPersistentEffect effect) {
         if (activeEffects.remove(effect)) {
             System.out.printf("%s失去了效果：%s%n", getName(), effect.getName());
         }
     }
 
     public void clearEffects() {
-        for (AbstractNonEntities effect : new java.util.ArrayList<>(activeEffects)) {
+        for (AbstractPersistentEffect effect : new java.util.ArrayList<>(activeEffects)) {
             removeEffect(effect);
         }
     }
 
     public void activateAllEffects() {
-        for (AbstractNonEntities effect : new java.util.ArrayList<>(activeEffects)) {
+        for (AbstractPersistentEffect effect : new java.util.ArrayList<>(activeEffects)) {
             if (!effect.tick(this)) {
                 removeEffect(effect);
             }
@@ -123,13 +123,13 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     @Override
     public double getAntiCritRate() { return antiCritRate; }
     @Override
-    public List<AbstractNonEntities> getActiveEffects() {
+    public List<AbstractPersistentEffect> getActiveEffects() {
         if (isInformation) {
             System.out.print(getName() + "目前所有效果：");
 
             // 输出所有效果
             for (int i = 0; i < activeEffects.size(); i++) {
-                AbstractNonEntities effect = activeEffects.get(i);
+                AbstractPersistentEffect effect = activeEffects.get(i);
                 System.out.print(effect.getName());
 
                 // 除了最后一个效果外，其他效果后加逗号分隔
