@@ -22,6 +22,7 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     protected double critRate;        // 暴击率（默认5%）
     protected double antiCritRate;    // 防爆率（默认5%）
     private List<AbstractNonEntities> activeEffects; // 当前激活的效果列表
+    private boolean isInformation = true; // 控制是否输出战斗信息
 
     public AbstractLife(String name, String description, int x, int y, int z,
                         int constitution, int strength, int intelligence) {
@@ -36,6 +37,7 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
         this.critRate = 5.0;             // 5%基础暴击
         this.antiCritRate = 5.0;         // 5%基础防爆
         this.activeEffects = new java.util.ArrayList<>();
+        this.isInformation = true;
     }
 
     // 生命值操作实现
@@ -51,7 +53,13 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     public void damage(int amount) {
         if (isAlive()) {
             setHealth(health - amount);
-            System.out.printf("%s受到%d点伤害，剩余生命值：%d%n", getName(), amount, health);
+            if (isInformation) {
+                System.out.printf("%s受到%d点伤害，剩余生命值：%d%n", getName(), amount, health);
+            }
+            if (!isAlive()) {
+                System.out.printf("%s已死亡%n", getName());
+                clearEffects(); // 死亡时清除所有效果
+            }
         }
     }
 
@@ -59,7 +67,9 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     public void heal(int amount) {
         if (isAlive()) {
             setHealth(health + amount);
-            System.out.printf("%s恢复了%d点生命值，当前生命值：%d%n", getName(), amount, health);
+            if (isInformation) {
+                System.out.printf("%s恢复了%d点生命值，当前生命值：%d%n", getName(), amount, health);
+            }
         }
     }
 
@@ -71,14 +81,12 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     @Override
     public void addEffect(AbstractNonEntities effect) {
         activeEffects.add(effect);
-        effect.activate(this);
         System.out.printf("%s获得了效果：%s%n", getName(), effect.getName());
     }
 
     @Override
     public void removeEffect(AbstractNonEntities effect) {
         if (activeEffects.remove(effect)) {
-            effect.deactivate(this);
             System.out.printf("%s失去了效果：%s%n", getName(), effect.getName());
         }
     }
@@ -115,7 +123,24 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     @Override
     public double getAntiCritRate() { return antiCritRate; }
     @Override
-    public List<AbstractNonEntities> getActiveEffects() { return activeEffects; }
+    public List<AbstractNonEntities> getActiveEffects() {
+        if (isInformation) {
+            System.out.print(getName() + "目前所有效果：");
+
+            // 输出所有效果
+            for (int i = 0; i < activeEffects.size(); i++) {
+                AbstractNonEntities effect = activeEffects.get(i);
+                System.out.print(effect.getName());
+
+                // 除了最后一个效果外，其他效果后加逗号分隔
+                if (i < activeEffects.size() - 1) {
+                    System.out.print("，");
+                }
+            }
+            System.out.println(); // 换行
+        }
+        return activeEffects;
+    }
 
     // 物品使用实现
     @Override
@@ -144,4 +169,5 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
     public void setMagicDefense(int magicDefense) { this.magicDefense = Math.max(0, magicDefense); }
     public void setCritRate(double critRate) { this.critRate = Math.max(0, Math.min(100, critRate)); }
     public void setAntiCritRate(double antiCritRate) { this.antiCritRate = Math.max(0, Math.min(100, antiCritRate)); }
+    public void setIsInformation(boolean information) { this.isInformation = information; }
 }

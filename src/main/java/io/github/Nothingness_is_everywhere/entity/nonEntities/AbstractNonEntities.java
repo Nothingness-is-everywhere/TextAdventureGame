@@ -14,35 +14,25 @@ public abstract class AbstractNonEntities {
     private String name;                  // 名称（如“火焰buff”“火球术”）
     private String description;           // 效果描述（如“每秒造成5点伤害”）
     private int duration;                 // 持续时间（-1表示永久，0表示即时生效）
-    private boolean isActive;             // 是否激活（未激活的效果不生效）
     private int stackCount;               // 叠加层数（适用于可叠加的效果）
+    private int cooldown;                // 冷却时间（单位：回合或秒，根据你的游戏逻辑）
+
 
     /**
      * 构造器：初始化非生命实体的基础属性
      * @param name 名称
      * @param description 效果描述
      * @param duration 持续时间（-1=永久，0=即时）
+     * @param cooldown 冷却时间
      */
-    public AbstractNonEntities(String name, String description, int duration) {
+    public AbstractNonEntities(String name, String description, int duration, int cooldown) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.duration = duration;
-        this.isActive = false;  // 初始未激活
         this.stackCount = 1;    // 初始叠加层数为1
+        this.cooldown = cooldown;
     }
-
-    /**
-     * 激活效果（核心方法：使效果开始作用）
-     * @param target 作用目标（通常是生命实体，如Player/NPC）
-     */
-    public abstract void activate(BaseEntity target);
-
-    /**
-     * 失效效果（核心方法：使效果停止作用）
-     * @param target 作用目标
-     */
-    public abstract void deactivate(BaseEntity target);
 
     /**
      * 每步更新（用于处理持续效果，如buff每回合减益）
@@ -50,13 +40,13 @@ public abstract class AbstractNonEntities {
      * @return 是否仍有效（false表示已结束）
      */
     public boolean tick(BaseEntity target) {
-        if (!isActive) return false;
-
-        // 处理持续时间（永久效果不减少持续时间）
+        if (cooldown > 0) {
+            cooldown--;
+            return false;
+        }
         if (duration > 0) {
             duration--;
             if (duration <= 0) {
-                deactivate(target);  // 持续时间结束，自动失效
                 return false;
             }
         }
@@ -90,7 +80,6 @@ public abstract class AbstractNonEntities {
         // 若已达最小层数，掉层后直接失效
         else if (stackCount == minStack) {
             stackCount--;
-            deactivate(null);  // 层数归零，效果失效（目标可根据实际需求传入）
             return false;
         }
         return false;
@@ -103,9 +92,10 @@ public abstract class AbstractNonEntities {
     public String getDescription() { return description; }
     public int getDuration() { return duration; }
     public void setDuration(int duration) { this.duration = duration; }
-    public boolean getActive() { return isActive; }
-    protected void setActive(boolean active) { isActive = active; }
     public int getStackCount() { return stackCount; }
+    public int getCooldown() { return cooldown; }
+
+    public void setCooldown(int cooldown) {this.cooldown = cooldown;}
 
     /**
      * 展示效果信息（包含状态、持续时间、叠加层数）

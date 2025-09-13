@@ -22,10 +22,14 @@ public class HealingPotion extends BaseEntity implements ItemTrait {
     public void use(AbstractLife target) {
         if (target.isAlive()) {
             // 立即治疗
+            target.setIsInformation(false);
             target.heal(healAmount);
+            System.out.printf("%s通过使用了治疗药水恢复了%d点生命值，剩余生命值：%d%n",
+                    target.getName(), healAmount, target.getHealth());
+            target.setIsInformation(true);
             // 附加持续恢复buff（3回合，每回合恢复5点）
+            System.out.printf("%s使用了%s，额外获得3回合持续恢复效果%n", target.getName(), getName());
             target.addEffect(new HealBuff(3, 5));
-            System.out.printf("使用了%s，额外获得3回合持续恢复效果%n", getName());
         } else {
             System.out.println("目标已死亡，无法使用治疗药水");
         }

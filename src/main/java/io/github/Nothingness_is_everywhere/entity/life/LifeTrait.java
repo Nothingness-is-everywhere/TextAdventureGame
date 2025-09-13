@@ -34,4 +34,5 @@ public interface LifeTrait {
     void useConsumables(Map<ItemTrait, Integer> consumables);
     void addEffect(AbstractNonEntities effect);
     void removeEffect(AbstractNonEntities effect);
+    void setIsInformation(boolean information);
 }
