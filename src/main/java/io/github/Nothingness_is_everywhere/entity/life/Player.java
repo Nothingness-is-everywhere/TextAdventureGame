@@ -12,6 +12,16 @@ public class Player extends AbstractLife {
     private double luck;                 // 幸运值（影响掉落、暴击等概率）
     private final Map<ItemTrait, Integer> inventory; // 物品栏（物品 -> 数量）
 
+
+    /**
+     * 玩家类构造器
+     * @param name 玩家名称
+     * @param description 玩家描述
+     * @param x 玩家的X坐标位置
+     * @param y 玩家的Y坐标位置
+     * @param z 玩家的Z坐标位置（高度）
+     */
+
     public Player(String name, String description, int x, int y, int z) {
         super(name, description, x, y, z, 10, 5, 5); // 初始属性：体质10，力量5，智力5
         this.luck = 10.0;                  // 初始幸运值10

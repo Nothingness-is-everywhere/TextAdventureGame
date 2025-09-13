@@ -1,12 +1,13 @@
 package io.github.Nothingness_is_everywhere.entity.base;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * 所有实体的最基础原子类
  * 包含核心属性、空间坐标和生命周期管理
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable {
     // 实体状态枚举
     public enum EntityState {
         ACTIVE,      // 活跃状态

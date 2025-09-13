@@ -21,11 +21,9 @@ public abstract class AbstractPersistentEffect extends AbstractNonEntities {
             cooldown--;
             return false; // 冷却中不生效
         }
-        if (duration > 0) {
+        if (duration >= 0) {
             duration--;
-            if (duration <= 0) {
-                return false; // 持续时间结束，失效
-            }
+            return duration >= 0; // 持续时间递减，0时失效
         }
         return true; // 仍有效
     }

@@ -3,7 +3,6 @@ package io.github.Nothingness_is_everywhere.entity.nonEntities.persistent;
 import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.life.AbstractLife;
 import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
-import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
 
 // 恢复Buff
 public class HealBuff extends AbstractPersistentEffect {

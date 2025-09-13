@@ -1,5 +1,7 @@
 package io.github.Nothingness_is_everywhere.util;
 
+import io.github.Nothingness_is_everywhere.entity.life.Player;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
@@ -158,15 +160,16 @@ public class BinarySecureSaveUtil {
 
 
         // 创建对象实例
-        TestObject obj = new TestObject();
 
         // 保存对象
-        BinarySecureSaveUtil.save(obj, "./src/main/resources/data/savegame");
+        BinarySecureSaveUtil.save(new Player("666","555",0,0,0), "./src/main/resources/data/savegame");
+        BinarySecureSaveUtil.save(new Player("666555","55555",0,0,0), "./src/main/resources/data/savegame");
 
         // 加载对象并添加null检查
-        Object loadedObj = BinarySecureSaveUtil.load("./src/main/resources/data/savegame");
-        if (loadedObj != null) {
-            System.out.println("加载对象：" + loadedObj);
+        Object loadedObj1 = BinarySecureSaveUtil.load("./src/main/resources/data/savegame");
+        Object loadedObj2 = BinarySecureSaveUtil.load("./src/main/resources/data/savegame");
+        if (loadedObj1 != null) {
+            System.out.println("加载对象：" + loadedObj1);
         } else {
             System.out.println("加载对象失败，对象为null");
         }
