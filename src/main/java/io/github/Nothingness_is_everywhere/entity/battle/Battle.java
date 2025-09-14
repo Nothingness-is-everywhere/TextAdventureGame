@@ -71,7 +71,7 @@ public class Battle {
 //                    System.out.printf("[偷袭触发] %s的%s生效！%n",
 //                            ((io.github.Nothingness_is_everywhere.entity.base.BaseEntity) entity).getName(),
 //                            effect.getName());
-//                    effect.tick(entity); // 触发偷袭效果
+//                    effect.trigger(entity); // 触发偷袭效果
 //                }
 //            }
 //        }

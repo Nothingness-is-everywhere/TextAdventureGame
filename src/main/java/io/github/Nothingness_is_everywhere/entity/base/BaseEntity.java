@@ -33,7 +33,7 @@ public abstract class BaseEntity implements Serializable {
     private ElementType elementType;    // 元素属性
 
     /**
-     * 构造器：初始化实体的基础属性和空间坐标
+     * 构造器：初始化实体的基础属性和空间坐标(一般应用于构造普通实体)
      * @param name 实体名称
      * @param description 实体描述
      * @param x 初始X坐标
@@ -51,6 +51,42 @@ public abstract class BaseEntity implements Serializable {
         this.elementType = ElementType.NONE; // 默认无属性
     }
 
+    /**
+     * 构造器：初始化实体的基础属性，坐标默认为(0,0,0)(一般应用于详细构造高级装备)
+     * @param name 实体名称
+     * @param description 实体描述
+     * @param elementType 元素属性
+     */
+    public BaseEntity(String name, String description, ElementType elementType) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.description = description;
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        this.state = EntityState.ACTIVE;    // 初始为活跃状态
+        this.elementType = elementType; // 设置元素属性
+    }
+
+    /**
+     * 构造器：初始化实体的基础属性、空间坐标和元素属性(一般应用于详细构造高级生命体)
+     * @param name 实体名称
+     * @param description 实体描述
+     * @param x 初始X坐标
+     * @param y 初始Y坐标
+     * @param z 初始Z坐标
+     * @param elementType 元素属性
+     */
+    public BaseEntity(String name, String description, int x, int y, int z, ElementType elementType) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.description = description;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.state = EntityState.ACTIVE;    // 初始为活跃状态
+        this.elementType = elementType; // 设置元素属性
+    }
     /**
      * 坐标移动
      * @param moveX X方向移动量

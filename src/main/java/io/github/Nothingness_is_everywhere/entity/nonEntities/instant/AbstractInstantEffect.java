@@ -14,9 +14,6 @@ public abstract class AbstractInstantEffect extends AbstractNonEntities {
         this.cost = cost;
     }
 
-    // 核心方法：即时触发效果（替代持续型的tick）
-    public abstract boolean trigger(BaseEntity target);
-
     // 冷却更新（每回合递减，与持续型逻辑分离）
     public void updateCooldown() {
         if (cooldown > 0) {

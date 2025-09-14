@@ -99,7 +99,7 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
 
     public void activateAllEffects() {
         for (AbstractPersistentEffect effect : new java.util.ArrayList<>(activeEffects)) {
-            if (!effect.tick(this)) {
+            if (!effect.trigger(this)) {
                 removeEffect(effect);
             }
         }
