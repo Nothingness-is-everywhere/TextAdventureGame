@@ -11,7 +11,7 @@ import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntitie
  * 管理持续时间、叠加层数、冷却时间等核心属性。
  * 支持元素属性扩展，便于判定效果类型和交互。
  */
-public abstract class AbstractPersistentEffect extends AbstractNonEntities {
+public abstract class AbstractPersistentEffect extends AbstractNonEntities implements PersistentEffectTrait {
     protected int duration;              // 持续时间（-1=永久，0=即时失效）
     protected int stackCount;            // 叠加层数
     protected int cooldown;              // 冷却时间（每步递减）

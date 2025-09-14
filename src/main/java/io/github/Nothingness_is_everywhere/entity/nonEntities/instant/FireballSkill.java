@@ -4,7 +4,7 @@ import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.life.AbstractLife;
 import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
 
-public class FireballSkill extends AbstractInstantEffect {
+public class FireballSkill extends AbstractInstantEffectTrait {
     private int damage;  // 即时伤害
 
     public FireballSkill(int cooldown, int cost, int damage) {
@@ -26,7 +26,7 @@ public class FireballSkill extends AbstractInstantEffect {
     }
 
     @Override
-    protected boolean hasEnoughResource(LifeTrait caster) {
+    public boolean hasEnoughResource(LifeTrait caster) {
         // 假设消耗智力值的10%作为魔力（示例逻辑）
         return caster.getIntelligence() * 0.1 >= getCost();
     }
