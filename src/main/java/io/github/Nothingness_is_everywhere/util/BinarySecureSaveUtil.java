@@ -1,6 +1,11 @@
 package io.github.Nothingness_is_everywhere.util;
 
+import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
+import io.github.Nothingness_is_everywhere.entity.base.ElementType;
+import io.github.Nothingness_is_everywhere.entity.life.LifeTrait;
 import io.github.Nothingness_is_everywhere.entity.life.Player;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
+import io.github.Nothingness_is_everywhere.entity.nonEntities.persistent.AbstractPersistentEffect;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -156,22 +161,30 @@ public class BinarySecureSaveUtil {
     }
 
     public static void main(String[] args) {
-        // 使用命名的静态内部类而非匿名内部类
+        String savePath = "./src/main/resources/data/savegame";
+        AbstractNonEntities fire = new AbstractPersistentEffect("火焰", "持续燃烧效果", 3, ElementType.FIRE) {
+            private int currentStack = 10;
+            @Override
+            public void increaseLevel() {
+                System.out.println("火焰效果提升一级！");
+                currentStack += 5;
+            }
 
+            @Override
+            public void decreaseLevel() {
+                System.out.println("火焰效果降低一级！");
+                currentStack = Math.max(5, currentStack - 5);
+            }
 
-        // 创建对象实例
-
-        // 保存对象
-        BinarySecureSaveUtil.save(new Player("666","555",0,0,0), "./src/main/resources/data/savegame");
-        BinarySecureSaveUtil.save(new Player("666555","55555",0,0,0), "./src/main/resources/data/savegame");
-
-        // 加载对象并添加null检查
-        Object loadedObj1 = BinarySecureSaveUtil.load("./src/main/resources/data/savegame");
-        Object loadedObj2 = BinarySecureSaveUtil.load("./src/main/resources/data/savegame");
-        if (loadedObj1 != null) {
-            System.out.println("加载对象：" + loadedObj1);
-        } else {
-            System.out.println("加载对象失败，对象为null");
-        }
+            @Override
+            public boolean trigger(BaseEntity target) {
+                if (target instanceof LifeTrait && super.isActive()) {
+                    ((LifeTrait) target).damage(this.currentStack);
+                    return true;
+                }
+                return false;
+            }
+        };
+        BinarySecureSaveUtil.save(fire, savePath);
     }
 }

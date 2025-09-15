@@ -3,19 +3,22 @@ package io.github.Nothingness_is_everywhere.entity.nonEntities;
 import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.base.ElementType;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * 抽象非实体类，表示游戏中非实体对象的基础属性和行为
  * 包含唯一标识、名称、描述等通用字段
  */
-public abstract class AbstractNonEntities {
+public abstract class AbstractNonEntities implements Serializable {
     private final String id;              // 唯一标识
     private String name;                  // 名称
-    private String description;           // 描述
-    private ElementType elementType;  // 元素类型
-
-
+    private final String description;     // 描述
+    private ElementType elementType;      // 元素类型
+    private int level;                    // 等级
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 构造器：初始化非实体对象的基础属性(一般应用于构造普通物理技能、天赋和效果)
@@ -27,6 +30,7 @@ public abstract class AbstractNonEntities {
         this.name = name;
         this.description = description;
         this.elementType = ElementType.NONE;
+        this.level = 1;
     }
 
     /**
@@ -40,7 +44,46 @@ public abstract class AbstractNonEntities {
         this.name = name;
         this.description = description;
         this.elementType = elementType;
+        this.level = 1;
     }
+
+    // 等级相关方法
+    /**
+     * 获取等级
+     * @return 等级
+     */
+    public int getLevel() {return level;}
+
+    /**
+     * 设置等级
+     * @param level 等级
+     */
+    public void setLevel(int level) {
+        if (level > 1 && level != this.level) {
+            if (level > this.level) {
+                for (int i = this.level; i < level; i++) {
+                    this.level++;
+                    increaseLevel();
+                }
+            } else {
+                for (int i = this.level; i > level; i--) {
+                    this.level--;
+                    decreaseLevel();
+                }
+            }
+        }
+    }
+
+    /**
+     * 提升等级
+     */
+    public abstract void increaseLevel();
+
+    /**
+     * 降低等级（最低为1级）
+     */
+    public abstract void decreaseLevel();
+
     /**
      * 获取唯一标识
      * @return id 唯一标识
@@ -52,12 +95,6 @@ public abstract class AbstractNonEntities {
      * @return name 名称
      */
     public String getName() { return name; }
-
-    /**
-     * 设置名称
-     * @param name 名称
-     */
-    public void setName(String name) { this.name = name; }
 
     /**
      * 获取描述

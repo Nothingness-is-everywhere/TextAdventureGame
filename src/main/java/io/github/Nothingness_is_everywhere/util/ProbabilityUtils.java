@@ -20,17 +20,17 @@ public class ProbabilityUtils {
     }
 
     /**
-     * 从列表中随机选择一个元素，每个元素概率相等
-     * @param list 待选择的元素列表
-     * @param <T> 元素类型
-     * @return 随机选中的元素，如果列表为空则返回null
+     * 生成指定范围的随机整数 [min, max]
+     * @param min 最小值（包含）
+     * @param max 最大值（包含）
+     * @return 随机整数
+     * @throws IllegalArgumentException 如果min > max
      */
-    public static <T> T randomSelect(List<T> list) {
-        if (list == null || list.isEmpty()) {
-            return null;
+    public static int randomInRange(int min, int max) {
+        if (min > max) {
+            throw new IllegalArgumentException("min不能大于max");
         }
-        int index = random.nextInt(list.size());
-        return list.get(index);
+        return min + random.nextInt(max - min + 1);
     }
 
     /**
@@ -97,7 +97,7 @@ public class ProbabilityUtils {
 
         // 测试随机选择
         List<String> fruits = Arrays.asList("苹果", "香蕉", "橙子", "葡萄");
-        System.out.println("\n随机选择水果: " + randomSelect(fruits));
+        System.out.println("\n随机选择水果: " + fruits.get(randomInRange(0, fruits.size() - 1)));
 
         // 测试带权重的随机选择
         List<WeightedItem<String>> items = new ArrayList<>();

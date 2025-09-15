@@ -1,6 +1,5 @@
 package io.github.Nothingness_is_everywhere.entity.nonEntities.persistent;
 
-import io.github.Nothingness_is_everywhere.entity.base.BaseEntity;
 import io.github.Nothingness_is_everywhere.entity.base.ElementType;
 import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntities;
 
@@ -12,9 +11,9 @@ import io.github.Nothingness_is_everywhere.entity.nonEntities.AbstractNonEntitie
  * 支持元素属性扩展，便于判定效果类型和交互。
  */
 public abstract class AbstractPersistentEffect extends AbstractNonEntities implements PersistentEffectTrait {
-    protected int duration;              // 持续时间（-1=永久，0=即时失效）
-    protected int stackCount;            // 叠加层数
-    protected int cooldown;              // 冷却时间（每步递减）
+    private int duration;              // 持续时间（-1=永久，0=即时失效）
+    private int stackCount;            // 叠加层数
+    private int cooldown;              // 冷却时间（每步递减）
 
     /**
      * 构造器：初始化持续效果的基础属性
@@ -74,10 +73,9 @@ public abstract class AbstractPersistentEffect extends AbstractNonEntities imple
 
     /**
      * 每步更新（处理持续时间和冷却，返回是否有效）
-     * @param target 作用目标实体
      * @return 是否仍有效
      */
-    public boolean isActive(BaseEntity target) {
+    public boolean isActive() {
         if (cooldown > 0) {
             cooldown--;
             return false; // 冷却中不生效
@@ -104,14 +102,13 @@ public abstract class AbstractPersistentEffect extends AbstractNonEntities imple
 
     /**
      * 减少层数（不低于最小层数）
-     * @param minStack 最小层数
      * @return 是否仍有效
      */
-    public boolean decreaseStack(int minStack) {
-        if (stackCount > minStack) {
+    public boolean decreaseStack() {
+        if (stackCount > 1) {
             stackCount--;
             return true;
-        } else if (stackCount == minStack) {
+        } else if (stackCount == 1) {
             stackCount--;
             return false; // 层数为0时失效
         }
@@ -149,4 +146,23 @@ public abstract class AbstractPersistentEffect extends AbstractNonEntities imple
      * @param cooldown 冷却时间
      */
     public void setCooldown(int cooldown) { this.cooldown = cooldown; }
+
+    /**
+     * 显示效果的详细信息，包括名称、描述、剩余时间、层数、冷却和属性等
+     * @return 格式化的效果信息字符串
+     */
+    @Override
+    public String showEffectInfo() {
+        String Duration = (getDuration() > 0) ? String.valueOf(getDuration()) : "永久";
+        return String.format(
+                "【%s】%s\n剩余时间：%s\n当前层数：%d\n冷却时间：%d\n元素属性：%s\n等级：Lv%s",
+                getName(),
+                getDescription(),
+                Duration,
+                getStackCount(),
+                getCooldown(),
+                getElementType().getChineseDesc(),
+                getLevel()
+        );
+    }
 }
