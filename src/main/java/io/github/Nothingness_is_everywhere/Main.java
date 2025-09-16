@@ -17,11 +17,11 @@ public class Main {
         String savePath = "./src/main/resources/data/savegame";
         LifeTrait monster1 = new Player("野狼", "普通怪物", 1, 1, 0); // 假设存在Monster类
         LifeTrait monster2 = new Player("巨狼", "精英怪物", 1, 2, 0);
-        AbstractPersistentEffect fire = (AbstractPersistentEffect) BinarySecureSaveUtil.load(savePath);
-        if (fire != null) {
-            fire.setLevel(8);
-        }
-        monster1.addEffect(fire);
+//        AbstractPersistentEffect fire = (AbstractPersistentEffect) BinarySecureSaveUtil.load(savePath);
+//        if (fire != null) {
+//            fire.setLevel(8);
+//        }
+//        monster1.addEffect(fire);
         player.addEffect(new AbstractPersistentEffect("恢复", "恢复10点伤害", 3) {
             private int currentStack = 10;
             @Override
