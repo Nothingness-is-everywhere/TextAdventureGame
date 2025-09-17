@@ -80,14 +80,26 @@ public abstract class AbstractLife extends BaseEntity implements LifeTrait {
 
     @Override
     public void addEffect(AbstractPersistentEffect effect) {
+        if (!effect.isAddedSuccessfully(this)) {
+            System.out.printf("%s未能成功获得效果：Lv%d【%s】%n", getName(), effect.getLevel(), effect.getName());
+            return;
+        }
+        if (activeEffects.contains(effect)) {
+            AbstractPersistentEffect existingEffect = activeEffects.get(activeEffects.indexOf(effect));
+            existingEffect.stack(5);
+            existingEffect.setDuration(Math.max(existingEffect.getDuration(), effect.getDuration()));
+            System.out.printf("%s的效果【%s】叠加一层，当前层数：%d，持续时间：%d%n", getName(), effect.getName(),
+                    existingEffect.getStackCount(), existingEffect.getDuration());
+            return;
+        }
         activeEffects.add(effect);
-        System.out.printf("%s获得了效果：%s%n", getName(), effect.getName());
+        System.out.printf("%s获得了效果：Lv%d【%s】%n", getName(), effect.getLevel(), effect.getName());
     }
 
     @Override
     public void removeEffect(AbstractPersistentEffect effect) {
         if (activeEffects.remove(effect)) {
-            System.out.printf("%s失去了效果：%s%n", getName(), effect.getName());
+            System.out.printf("%s失去了效果：Lv%d【%s】%n", getName(), effect.getLevel(), effect.getName());
         }
     }
 

@@ -24,4 +24,10 @@ public interface PersistentEffectTrait {
      * @return 如果成功减少返回true，达到最小层数限制则返回false
      */
     boolean decreaseStack();
+
+    /**
+     * 判断效果是否已成功添加
+     * @return 如果添加成功返回true，否则返回false
+     */
+    boolean isAddedSuccessfully(BaseEntity target);
 }

@@ -418,31 +418,38 @@ public class BinarySecureSaveUtil {
     public static void main(String[] args) {
         String savePath = "./src/main/resources/data/effects";
         AbstractNonEntities fire = new AbstractPersistentEffect("火焰", "持续燃烧效果", 3, ElementType.FIRE) {
-            private int currentStack = 10;
+            @Override
+            public boolean isAddedSuccessfully(BaseEntity target) {
+                return true;
+            }
+
+            private int currentStack = 5;
             @Override
             public void increaseLevel() {
                 System.out.println("火焰效果提升一级！");
-                currentStack += 5;
+                currentStack += 1;
             }
 
             @Override
             public void decreaseLevel() {
                 System.out.println("火焰效果降低一级！");
-                currentStack = Math.max(5, currentStack - 5);
+                currentStack = Math.max(5, currentStack - 1);
             }
 
             @Override
             public boolean trigger(BaseEntity target) {
                 if (target instanceof LifeTrait && super.isActive()) {
-                    ((LifeTrait) target).damage(this.currentStack);
+                    double damage = (this.currentStack * this.getStackCount()) / 100.0;
+                    ((LifeTrait) target).damage((int) (damage * ((LifeTrait) target).getConstitution() * 10));
                     return true;
                 }
                 return false;
             }
         };
         try {
-            String effectId = BinarySecureSaveUtil.add(fire, savePath);
+//            String effectId = BinarySecureSaveUtil.add(fire, savePath);
             fire.setLevel(5);
+            String effectId = "95db9a0b-dd75-4d6d-beb8-5af5f95031bc";
             BinarySecureSaveUtil.update(effectId, fire, savePath);
             var ids = BinarySecureSaveUtil.listAllIdDescriptions(savePath);
             System.out.println("当前存档中的所有ID：");
@@ -454,7 +461,7 @@ public class BinarySecureSaveUtil {
                     System.out.println(effect.getId());
                 }
                 // 删除对象
-                BinarySecureSaveUtil.delete(id.id,savePath);
+//                BinarySecureSaveUtil.delete(id.id,savePath);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

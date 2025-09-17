@@ -165,4 +165,5 @@ public abstract class AbstractPersistentEffect extends AbstractNonEntities imple
                 getLevel()
         );
     }
+
 }
